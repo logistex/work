@@ -1,0 +1,12 @@
+<!--blog/templates/registration/login.html-->
+<ul>
+{% if user.is_authenticated %}
+    <!--로그인 상태면 아이디 / logout 이 뜨고-->
+    <span>{{ user.username }}님</span>
+    <a href="{% url 'logout' %}">로그아웃</a>
+{% else %}
+    <!--로그인 상태가 아니면 로그인 / 관리자 뜬다.-->
+    <li><a href="{% url 'login' %}">로그인</a></li>
+    <li><a href="{% url 'admin:index' %}">관리자</a></li>
+{% endif %}
+</ul>

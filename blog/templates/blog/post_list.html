@@ -1,0 +1,31 @@
+{% extends 'blog/base.html' %}
+
+{% block content %}
+    {% for post in posts %}
+    <div class="post">
+        <!--<h2><a href="">{{ post.title }}</a></h2>-->
+        {% if user.is_authenticated and user == post.author %}
+        {#{% if user.is_authenticated and user.username == post.author.username %}#}
+        {#{% if user.is_authenticated and user.username == post.author %}논리오류#}
+        <a style="float:right" class="btn btn-default"
+           href="{% url 'post_edit' pk=post.pk %}">
+            <span class="glyphicon glyphicon-pencil">
+            </span>
+        </a>
+        {% endif %}
+        <h2><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h2>
+        <!--승인된 댓글 개수 출력-->
+        <a href="{% url 'post_detail' pk=post.pk %}">
+            댓글: {{ post.approved_comments.count }}
+        </a>
+        <!--댓글 등록 단추-->
+        <a class="btn btn-default"
+           href="{% url 'add_comment_to_post' pk=post.pk %}">
+            댓글 등록
+        </a>
+        <!--url('post_detail', pk=post.pk)-->
+        <p>게시일시: {{ post.published_date }}</p>
+        <p>{{ post.text|linebreaksbr|truncatechars:20 }}</p>
+    </div>
+    {% endfor %}
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends "blog/base.html" %}
+
+{% block content %}
+    {% if form.errors %}
+        <p style="color: red;">이름과 비밀번호가 일치하지 않습니다. 다시 시도해주세요.</p>
+    {% endif %}
+
+    {% if next %}
+        {% if user.is_authenticated %}
+            <p> 페이지에 대한 접근 권한이 없습니다. 접근 권한을 가진 계정으로 로그인해주세요.</p>
+        {% else %}
+            <p>페이지를 보시려면 로그인을 해주세요.</p>
+        {% endif %}
+    {% endif %}
+
+    <form method="post" action="{% url 'login' %}">
+    {% csrf_token %}
+        <table>
+        <tr>
+            <td>{{ form.username.label_tag }}</td>
+            <td>{{ form.username }}</td>
+        </tr>
+        <tr>
+            <td>{{ form.password.label_tag }}</td>
+            <td>{{ form.password }}</td>
+        </tr>
+        </table>
+
+        <input type="submit" value="login" />
+        <input type="hidden" name="next" value="{{ next }}" />
+    </form>
+
+    {# URLconf에서 비밀번호 재설정 뷰를 설정했다고 가정하고... #}
+    {# <p class="mt-2"><a href="{% url 'password_reset' %}">비밀번호를 잊으셨나요?</a></p> #}
+{% endblock %}
